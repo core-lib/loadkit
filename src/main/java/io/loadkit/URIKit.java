@@ -17,6 +17,7 @@
 package io.loadkit;
 
 import java.io.ByteArrayOutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -375,7 +376,7 @@ public abstract class URIKit {
      * @throws IllegalArgumentException when the given value is not a valid URI component
      */
     static String encodeUriComponent(String source, Charset charset, Type type) {
-        if (!(source != null && !source.isEmpty())) {
+        if (!(source != null && source.length() > 0)) {
             return source;
         }
         if (charset == null) {
@@ -385,7 +386,12 @@ public abstract class URIKit {
             throw new IllegalArgumentException("Type must not be null");
         }
 
-        byte[] bytes = source.getBytes(charset);
+        byte[] bytes;
+        try {
+            bytes = source.getBytes(charset.name());
+        } catch (UnsupportedEncodingException e) {
+            throw new IllegalStateException(e);
+        }
         ByteArrayOutputStream bos = new ByteArrayOutputStream(bytes.length);
         boolean changed = false;
         for (byte b : bytes) {
@@ -403,7 +409,11 @@ public abstract class URIKit {
                 changed = true;
             }
         }
-        return (changed ? new String(bos.toByteArray(), charset) : source);
+        try {
+            return (changed ? new String(bos.toByteArray(), charset.name()) : source);
+        } catch (UnsupportedEncodingException e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     public static String uriDecode(String source, Charset charset) {
@@ -438,7 +448,11 @@ public abstract class URIKit {
                 bos.write(ch);
             }
         }
-        return (changed ? new String(bos.toByteArray(), charset) : source);
+        try {
+            return (changed ? new String(bos.toByteArray(), charset.name()) : source);
+        } catch (UnsupportedEncodingException e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     /**

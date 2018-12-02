@@ -7,43 +7,33 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import java.util.jar.JarFile;
 
 /**
- * classpath 资源加载器
+ * 工程 classpath 资源加载器
  *
  * @author Payne 646742615@qq.com
  * 2018/12/1 23:10
  */
-public class ClasspathLoader extends ResourceLoader implements Loader {
+public class ProjLoader extends ResourceLoader implements Loader {
     private final ClassLoader classLoader;
 
-    public ClasspathLoader() {
+    public ProjLoader() {
         this(Thread.currentThread().getContextClassLoader() != null ? Thread.currentThread().getContextClassLoader() : ClassLoader.getSystemClassLoader());
     }
 
-    public ClasspathLoader(ClassLoader classLoader) {
+    public ProjLoader(ClassLoader classLoader) {
         if (classLoader == null) {
             throw new IllegalArgumentException("classLoader must not be null");
         }
         this.classLoader = classLoader;
     }
 
-    public static void main(String... args) throws IOException {
-        Loader loader = new ClasspathLoader();
-        Enumeration<Resource> enumeration = loader.load("org/junit", true);
-        while (enumeration.hasMoreElements()) {
-            System.out.println(enumeration.nextElement());
-        }
-    }
-
     public Enumeration<Resource> load(String path, boolean recursively, Filter filter) throws IOException {
-        while (path.startsWith("/")) {
-            path = path.substring(1);
-        }
-        while (path.endsWith("/")) {
-            path = path.substring(0, path.length() - 1);
-        }
+        while (path.startsWith("/")) path = path.substring(1);
+        while (path.endsWith("/")) path = path.substring(0, path.length() - 1);
         return new Enumerator(classLoader, path, recursively, filter != null ? filter : Filter.ALL);
     }
 
@@ -58,8 +48,28 @@ public class ClasspathLoader extends ResourceLoader implements Loader {
             this.path = path;
             this.recursively = recursively;
             this.filter = filter;
-            this.urls = classLoader.getResources(path);
+            this.urls = load(classLoader, path);
             this.resources = Collections.enumeration(Collections.<Resource>emptySet());
+        }
+
+        private Enumeration<URL> load(ClassLoader classLoader, String path) throws IOException {
+            if (path.length() > 0) {
+                return classLoader.getResources(path);
+            } else {
+                Set<URL> set = new LinkedHashSet<URL>();
+                set.add(classLoader.getResource(path));
+                Enumeration<URL> urls = classLoader.getResources("META-INF/");
+                while (urls.hasMoreElements()) {
+                    URL url = urls.nextElement();
+                    if (url.getProtocol().equalsIgnoreCase("jar")) {
+                        String spec = url.toString();
+                        int index = spec.lastIndexOf("!/");
+                        if (index < 0) continue;
+                        set.add(new URL(url, spec.substring(0, index + "!/".length())));
+                    }
+                }
+                return Collections.enumeration(set);
+            }
         }
 
         public boolean hasMoreElements() {

@@ -15,14 +15,6 @@ public class AntLoader extends PatternLoader implements Loader {
         super(delegate);
     }
 
-    public static void main(String... args) throws IOException {
-        Loader loader = new AntLoader(new ProjLoader());
-        Enumeration<Resource> enumeration = loader.load("/io/**", true);
-        while (enumeration.hasMoreElements()) {
-            System.out.println(enumeration.nextElement().getName());
-        }
-    }
-
     @Override
     public Enumeration<Resource> load(String pattern, boolean recursively, Filter filter) throws IOException {
         if (Math.max(pattern.indexOf('*'), pattern.indexOf('?')) < 0) {

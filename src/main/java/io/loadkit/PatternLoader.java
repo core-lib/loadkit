@@ -28,10 +28,11 @@ public abstract class PatternLoader extends DelegateLoader implements Loader {
      * @throws IOException I/O 异常
      */
     public Enumeration<Resource> load(String pattern, boolean recursively, Filter filter) throws IOException {
+        Filter matcher = filter(pattern);
         return delegate.load(
                 path(pattern),
                 recursively(pattern),
-                filter != null ? new MixedFilter(filter, filter(pattern)) : filter(pattern)
+                filter != null ? new MixedFilter(filter, (matcher != null ? matcher : Filter.ALL)) : (matcher != null ? matcher : Filter.ALL)
         );
     }
 

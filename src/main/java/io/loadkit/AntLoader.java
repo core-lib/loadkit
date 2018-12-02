@@ -11,6 +11,14 @@ import java.util.Enumeration;
  */
 public class AntLoader extends PatternLoader implements Loader {
 
+    public AntLoader() {
+        this(new StdLoader());
+    }
+
+    public AntLoader(ClassLoader classLoader) {
+        this(new StdLoader(classLoader));
+    }
+
     public AntLoader(Loader delegate) {
         super(delegate);
     }

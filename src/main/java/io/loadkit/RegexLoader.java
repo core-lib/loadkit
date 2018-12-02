@@ -8,6 +8,14 @@ package io.loadkit;
  */
 public class RegexLoader extends PatternLoader implements Loader {
 
+    public RegexLoader() {
+        this(new StdLoader());
+    }
+
+    public RegexLoader(ClassLoader classLoader) {
+        this(new StdLoader(classLoader));
+    }
+
     public RegexLoader(Loader delegate) {
         super(delegate);
     }

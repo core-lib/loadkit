@@ -12,13 +12,14 @@ import java.util.Enumeration;
 public interface Loader {
 
     /**
-     * 加载指定路径的一个资源，有可能存在多个满足条件的资源，但只返回第一个，即等效于Loader.load(path, false, Filter.ALL)的第一个元素或{@code null}当指定路径下的资源不存在时。
+     * 加载指定路径的所有资源，等效于Loader.load(path, false, Filter.ALL)的调用。
+     * 通常情况下不递归加载，但是子类可以改变此方法的行为，例如ANT风格路径的资源加载器可以根据传入表达式来判断是否递归加载。
      *
      * @param path 资源路径
      * @return 资源对象
      * @throws IOException I/O 异常
      */
-    Resource load(String path) throws IOException;
+    Enumeration<Resource> load(String path) throws IOException;
 
     /**
      * 加载指定路径的所有资源，等效于Loader.load(path, recursively, Filter.ALL)的调用。

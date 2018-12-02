@@ -12,9 +12,8 @@ import java.util.NoSuchElementException;
  */
 public abstract class ResourceLoader implements Loader {
 
-    public Resource load(String path) throws IOException {
-        Enumeration<Resource> enumeration = load(path, false, Filter.ALL);
-        return enumeration.hasMoreElements() ? enumeration.nextElement() : null;
+    public Enumeration<Resource> load(String path) throws IOException {
+        return load(path, false, Filter.ALL);
     }
 
     public Enumeration<Resource> load(String path, boolean recursively) throws IOException {

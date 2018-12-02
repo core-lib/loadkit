@@ -7,6 +7,7 @@ package io.loadkit;
  * 2018/12/2 11:40
  */
 public class AntFilter extends RegexFilter implements Filter {
+    private static final String[] SYMBOLS = {"\\", "$", "(", ")", "+", ".", "[", "]", "^", "{", "}", "|"};
 
     public AntFilter(String ant) {
         super(convert(ant));
@@ -20,6 +21,7 @@ public class AntFilter extends RegexFilter implements Filter {
      */
     private static String convert(String ant) {
         String regex = ant;
+        for (String symbol : SYMBOLS) regex = regex.replace(symbol, '\\' + symbol);
         regex = regex.replace("**", ".{0,}");
         regex = regex.replace("*", "[^/]{0,}");
         regex = regex.replace("?", ".{1}");

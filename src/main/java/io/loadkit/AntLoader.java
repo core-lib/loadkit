@@ -17,14 +17,25 @@ public class AntLoader extends PatternLoader implements Loader {
 
     public static void main(String... args) throws IOException {
         Loader loader = new AntLoader(new ProjLoader());
-        Enumeration<Resource> enumeration = loader.load("*", true);
+        Enumeration<Resource> enumeration = loader.load("/io/**", true);
         while (enumeration.hasMoreElements()) {
             System.out.println(enumeration.nextElement().getName());
         }
     }
 
+    @Override
+    public Enumeration<Resource> load(String pattern, boolean recursively, Filter filter) throws IOException {
+        if (Math.max(pattern.indexOf('*'), pattern.indexOf('?')) < 0) {
+            return delegate.load(pattern, recursively, filter);
+        } else {
+            return super.load(pattern, recursively, filter);
+        }
+    }
+
     protected String path(String ant) {
-        int index = Math.min(ant.indexOf('*'), ant.indexOf('?'));
+        int index = Integer.MAX_VALUE - 1;
+        if (ant.contains("*") && ant.indexOf('*') < index) index = ant.indexOf('*');
+        if (ant.contains("?") && ant.indexOf('?') < index) index = ant.indexOf('?');
         return ant.substring(0, ant.lastIndexOf('/', index) + 1);
     }
 

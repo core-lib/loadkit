@@ -19,7 +19,7 @@ public class MixedFilter implements Filter {
     }
 
     public MixedFilter(Collection<? extends Filter> filters) {
-        this.filters = Collections.unmodifiableCollection(filters);
+        this.filters = filters != null ? Collections.unmodifiableCollection(filters) : Collections.<Filter>emptySet();
     }
 
     public boolean filtrate(String name, URL url) {

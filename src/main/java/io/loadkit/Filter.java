@@ -1,5 +1,7 @@
 package io.loadkit;
 
+import java.net.URL;
+
 /**
  * 资源过滤器
  *
@@ -8,8 +10,11 @@ package io.loadkit;
  */
 public interface Filter {
 
+    /**
+     * 所有资源过滤器
+     */
     Filter ALL = new Filter() {
-        public boolean filtrate(Resource resource) {
+        public boolean filtrate(String name, URL url) {
             return true;
         }
     };
@@ -17,9 +22,10 @@ public interface Filter {
     /**
      * 过滤资源
      *
-     * @param resource 资源
+     * @param name 资源名称，即相对路径
+     * @param url  资源URL地址
      * @return true: 加载  false: 不加载
      */
-    boolean filtrate(Resource resource);
+    boolean filtrate(String name, URL url);
 
 }

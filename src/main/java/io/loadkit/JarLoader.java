@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.JarURLConnection;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -73,14 +74,19 @@ public class JarLoader extends ResourceLoader implements Loader {
                 if (jarEntry.isDirectory()) {
                     continue;
                 }
-                String name = jarEntry.getName();
-                if (name.equals(path)
-                        || (recursively && name.startsWith(folder))
-                        || (!recursively && name.startsWith(folder) && name.indexOf('/', folder.length()) < 0)) {
-                    JarResource resource = new JarResource(context, jarEntry);
-                    if (filter.filtrate(resource)) {
-                        next = resource;
-                        return true;
+                String jarEntryName = jarEntry.getName();
+                if (jarEntryName.equals(path)
+                        || (recursively && jarEntryName.startsWith(folder))
+                        || (!recursively && jarEntryName.startsWith(folder) && jarEntryName.indexOf('/', folder.length()) < 0)) {
+                    try {
+                        String name = jarEntry.getName();
+                        URL url = new URL(context, URIKit.encodePath(name, Charset.defaultCharset()));
+                        if (filter.filtrate(name, url)) {
+                            next = new URLResource(name, url);
+                            return true;
+                        }
+                    } catch (Exception e) {
+                        throw new IllegalStateException(e);
                     }
                 }
             }

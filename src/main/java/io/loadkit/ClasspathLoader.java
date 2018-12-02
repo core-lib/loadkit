@@ -31,7 +31,7 @@ public class ClasspathLoader extends ResourceLoader {
 
     public static void main(String... args) throws IOException {
         Loader loader = new ClasspathLoader();
-        Enumeration<Resource> enumeration = loader.load("/org/junit/Assert.class/", false);
+        Enumeration<Resource> enumeration = loader.load("", true);
         while (enumeration.hasMoreElements()) {
             System.out.println(enumeration.nextElement());
         }
@@ -75,9 +75,9 @@ public class ClasspathLoader extends ResourceLoader {
                 String protocol = url.getProtocol();
                 if ("file".equalsIgnoreCase(protocol)) {
                     try {
-                        String uri = UriKit.decode(url.getPath(), Charset.defaultCharset());
+                        String uri = URIKit.decode(url.getPath(), Charset.defaultCharset());
                         String root = uri.substring(0, uri.lastIndexOf(path));
-                        URL context = new URL(url, "file:" + UriKit.encodePath(root, Charset.defaultCharset()));
+                        URL context = new URL(url, "file:" + URIKit.encodePath(root, Charset.defaultCharset()));
                         File file = new File(root);
                         resources = new FileLoader(context, file).load(path, recursively, filter);
                         return hasMoreElements();
@@ -86,9 +86,9 @@ public class ClasspathLoader extends ResourceLoader {
                     }
                 } else if ("jar".equalsIgnoreCase(protocol)) {
                     try {
-                        String uri = UriKit.decode(url.getPath(), Charset.defaultCharset());
+                        String uri = URIKit.decode(url.getPath(), Charset.defaultCharset());
                         String root = uri.substring(0, uri.lastIndexOf(path));
-                        URL context = new URL(url, "jar:" + UriKit.encodePath(root, Charset.defaultCharset()));
+                        URL context = new URL(url, "jar:" + URIKit.encodePath(root, Charset.defaultCharset()));
                         JarURLConnection jarURLConnection = (JarURLConnection) url.openConnection();
                         JarFile jarFile = jarURLConnection.getJarFile();
                         resources = new JarLoader(context, jarFile).load(path, recursively, filter);

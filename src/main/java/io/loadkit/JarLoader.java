@@ -74,12 +74,11 @@ public class JarLoader extends ResourceLoader implements Loader {
                 if (jarEntry.isDirectory()) {
                     continue;
                 }
-                String jarEntryName = jarEntry.getName();
-                if (jarEntryName.equals(path)
-                        || (recursively && jarEntryName.startsWith(folder))
-                        || (!recursively && jarEntryName.startsWith(folder) && jarEntryName.indexOf('/', folder.length()) < 0)) {
+                String name = jarEntry.getName();
+                if (name.equals(path)
+                        || (recursively && name.startsWith(folder))
+                        || (!recursively && name.startsWith(folder) && name.indexOf('/', folder.length()) < 0)) {
                     try {
-                        String name = jarEntry.getName();
                         URL url = new URL(context, URIKit.encodePath(name, Charset.defaultCharset()));
                         if (filter.filtrate(name, url)) {
                             next = new URLResource(name, url);

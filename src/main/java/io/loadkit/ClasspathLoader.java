@@ -15,7 +15,7 @@ import java.util.jar.JarFile;
  * @author Payne 646742615@qq.com
  * 2018/12/1 23:10
  */
-public class ClasspathLoader extends ResourceLoader {
+public class ClasspathLoader extends ResourceLoader implements Loader {
     private final ClassLoader classLoader;
 
     public ClasspathLoader() {
@@ -31,7 +31,7 @@ public class ClasspathLoader extends ResourceLoader {
 
     public static void main(String... args) throws IOException {
         Loader loader = new ClasspathLoader();
-        Enumeration<Resource> enumeration = loader.load("", true);
+        Enumeration<Resource> enumeration = loader.load("org/junit", true);
         while (enumeration.hasMoreElements()) {
             System.out.println(enumeration.nextElement());
         }

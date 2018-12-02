@@ -12,19 +12,19 @@ import java.util.Set;
 import java.util.jar.JarFile;
 
 /**
- * 工程 classpath 资源加载器
+ * 标准的资源加载器
  *
  * @author Payne 646742615@qq.com
  * 2018/12/1 23:10
  */
-public class ProjLoader extends ResourceLoader implements Loader {
+public class StdLoader extends ResourceLoader implements Loader {
     private final ClassLoader classLoader;
 
-    public ProjLoader() {
+    public StdLoader() {
         this(Thread.currentThread().getContextClassLoader() != null ? Thread.currentThread().getContextClassLoader() : ClassLoader.getSystemClassLoader());
     }
 
-    public ProjLoader(ClassLoader classLoader) {
+    public StdLoader(ClassLoader classLoader) {
         if (classLoader == null) {
             throw new IllegalArgumentException("classLoader must not be null");
         }

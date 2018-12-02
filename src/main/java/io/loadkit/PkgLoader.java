@@ -12,11 +12,11 @@ import java.util.Enumeration;
 public class PkgLoader extends DelegateLoader implements Loader {
 
     public PkgLoader() {
-        this(new ProjLoader());
+        this(new StdLoader());
     }
 
     public PkgLoader(ClassLoader classLoader) {
-        this(new ProjLoader(classLoader));
+        this(new StdLoader(classLoader));
     }
 
     public PkgLoader(Loader delegate) {

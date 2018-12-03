@@ -11,24 +11,6 @@ import java.net.URL;
 public interface Filter {
 
     /**
-     * 永远返回true的过滤器
-     */
-    Filter TRUE = new Filter() {
-        public boolean filtrate(String name, URL url) {
-            return true;
-        }
-    };
-
-    /**
-     * 永远返回false的过滤器
-     */
-    Filter FALSE = new Filter() {
-        public boolean filtrate(String name, URL url) {
-            return false;
-        }
-    };
-
-    /**
      * 过滤资源
      *
      * @param name 资源名称，即相对路径

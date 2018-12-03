@@ -13,11 +13,11 @@ import java.util.NoSuchElementException;
 public abstract class ResourceLoader implements Loader {
 
     public Enumeration<Resource> load(String path) throws IOException {
-        return load(path, false, Filter.TRUE);
+        return load(path, false, Filters.ALWAYS);
     }
 
     public Enumeration<Resource> load(String path, boolean recursively) throws IOException {
-        return load(path, recursively, Filter.TRUE);
+        return load(path, recursively, Filters.ALWAYS);
     }
 
     public Enumeration<Resource> load(String path, Filter filter) throws IOException {

@@ -12,7 +12,7 @@ import java.util.Enumeration;
 public interface Loader {
 
     /**
-     * 加载指定路径的所有资源，等效于Loader.load(path, false, Filter.TRUE)的调用。
+     * 加载指定路径的所有资源，等效于Loader.load(path, false, Filters.ALWAYS)的调用。
      * 通常情况下不递归加载，但是子类可以改变此方法的行为，例如ANT风格路径的资源加载器可以根据传入表达式来判断是否递归加载。
      *
      * @param path 资源路径
@@ -22,7 +22,7 @@ public interface Loader {
     Enumeration<Resource> load(String path) throws IOException;
 
     /**
-     * 加载指定路径的所有资源，等效于Loader.load(path, recursively, Filter.TRUE)的调用。
+     * 加载指定路径的所有资源，等效于Loader.load(path, recursively, Filters.ALWAYS)的调用。
      *
      * @param path        资源路径
      * @param recursively 递归加载

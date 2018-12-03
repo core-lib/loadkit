@@ -38,7 +38,7 @@ public class FileLoader extends ResourceLoader implements Loader {
     }
 
     public Enumeration<Resource> load(String path, boolean recursively, Filter filter) {
-        return new Enumerator(context, root, path, recursively, filter != null ? filter : Filter.TRUE);
+        return new Enumerator(context, root, path, recursively, filter != null ? filter : Filters.ALWAYS);
     }
 
     private static class Enumerator extends ResourceEnumerator implements Enumeration<Resource> {

@@ -68,9 +68,10 @@ public abstract class Loaders {
     /**
      * 创建按包名来加载的资源加载器，这是一个委派加载器，自身并没有资源加载逻辑而是委派给实际的资源加载器，
      * 在这个创建方法中，实际委派给delegate资源加载器。
-     * 示例：在{@link Loaders#std()}创建的资源加载器中加载类资源路径表达实际上不太直观，往往采用包名的方式更清晰易懂
-     * <p>1. Loaders.pkg().load("io.loadkit"); 加载classpath中"io.loadkit"包下的所有资源，但不包括子包。</p>
-     * <p>2. Loaders.pkg().load("io", true); 加载classpath中"io"包下的所有资源，而且包括子子包。</p>
+     * 通过包装一个实际资源加载器可以实现更灵活的加载方式，例如：
+     * <p>1. Loaders.pkg(Loaders.ant()).load("io.loadkit.*"); 加载io.loadkit包下的资源，但不递归加载子包。</p>
+     * <p>2. Loaders.pkg(Loaders.ant()).load("io.**"); 加载io包以及子包的资源，而且递归加载任意层次的子包。</p>
+     * <p>3. Loaders.pkg(Loaders.ant()).load("io.load???.*"); 加载io包下以load开头并且跟着三个字符的子包的所有资源。</p>
      *
      * @return 按包名来加载的资源加载器
      */
@@ -81,6 +82,10 @@ public abstract class Loaders {
     /**
      * 创建ANT风格路径表达式的资源加载器，这是一个委派加载器，自身并没有资源加载逻辑而是委派给实际的资源加载器，
      * 在这个创建方法中，实际委派给{@link Loaders#std()}资源加载器。
+     * 示例：
+     * <p>1. Loaders.ant().load("io/loadkit/*"); 加载io/loadkit/目录下的资源，但不包括子目录。</p>
+     * <p>2. Loaders.ant().load("io/**"); 加载io/目录下的资源以及递归加载所有子目录的资源。</p>
+     * <p>3. Loaders.ant().load("io/loadkit/*Loader.class"); 加载io/loadkit/目录下以Loader.class结尾的资源</p>
      *
      * @return 按包名来加载的资源加载器
      */
@@ -91,6 +96,10 @@ public abstract class Loaders {
     /**
      * 创建ANT风格路径表达式的资源加载器，这是一个委派加载器，自身并没有资源加载逻辑而是委派给实际的资源加载器，
      * 在这个创建方法中，实际委派给{@link Loaders#std(ClassLoader)}资源加载器。
+     * 示例：
+     * <p>1. Loaders.ant().load("io/loadkit/*"); 加载io/loadkit/目录下的资源，但不包括子目录。</p>
+     * <p>2. Loaders.ant().load("io/**"); 加载io/目录下的资源以及递归加载所有子目录的资源。</p>
+     * <p>3. Loaders.ant().load("io/loadkit/*Loader.class"); 加载io/loadkit/目录下以Loader.class结尾的资源</p>
      *
      * @return 按包名来加载的资源加载器
      */
@@ -101,6 +110,10 @@ public abstract class Loaders {
     /**
      * 创建ANT风格路径表达式的资源加载器，这是一个委派加载器，自身并没有资源加载逻辑而是委派给实际的资源加载器，
      * 在这个创建方法中，实际委派给delegate资源加载器。
+     * 示例：
+     * <p>1. Loaders.ant().load("io/loadkit/*"); 加载io/loadkit/目录下的资源，但不包括子目录。</p>
+     * <p>2. Loaders.ant().load("io/**"); 加载io/目录下的资源以及递归加载所有子目录的资源。</p>
+     * <p>3. Loaders.ant().load("io/loadkit/*Loader.class"); 加载io/loadkit/目录下以Loader.class结尾的资源</p>
      *
      * @return 按包名来加载的资源加载器
      */
@@ -111,6 +124,9 @@ public abstract class Loaders {
     /**
      * 创建正则表达式的资源加载器，这是一个委派加载器，自身并没有资源加载逻辑而是委派给实际的资源加载器，
      * 在这个创建方法中，实际委派给{@link Loaders#std()}资源加载器。
+     * 示例：
+     * <p>1. Loaders.regex().load("io/loadkit/\\w+Loader.class"); 加载io/loadkit/目录下以Loader.class结尾的资源。</p>
+     * <p>2. Loaders.regex().load("io/.*"); 加载io包下所有资源。</p>
      *
      * @return 按包名来加载的资源加载器
      */
@@ -121,6 +137,9 @@ public abstract class Loaders {
     /**
      * 创建正则表达式的资源加载器，这是一个委派加载器，自身并没有资源加载逻辑而是委派给实际的资源加载器，
      * 在这个创建方法中，实际委派给{@link Loaders#std(ClassLoader)}资源加载器。
+     * 示例：
+     * <p>1. Loaders.regex().load("io/loadkit/\\w+Loader.class"); 加载io/loadkit/目录下以Loader.class结尾的资源。</p>
+     * <p>2. Loaders.regex().load("io/.*"); 加载io包下所有资源。</p>
      *
      * @return 按包名来加载的资源加载器
      */
@@ -131,6 +150,9 @@ public abstract class Loaders {
     /**
      * 创建正则表达式的资源加载器，这是一个委派加载器，自身并没有资源加载逻辑而是委派给实际的资源加载器，
      * 在这个创建方法中，实际委派给delegate资源加载器。
+     * 示例：
+     * <p>1. Loaders.regex().load("io/loadkit/\\w+Loader.class"); 加载io/loadkit/目录下以Loader.class结尾的资源。</p>
+     * <p>2. Loaders.regex().load("io/.*"); 加载io包下所有资源。</p>
      *
      * @return 按包名来加载的资源加载器
      */

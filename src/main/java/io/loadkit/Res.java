@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.net.URL;
 
 /**
- * URL资源
+ * 资源的一个通用实现
  *
  * @author Payne 646742615@qq.com
  * 2018/12/2 10:06

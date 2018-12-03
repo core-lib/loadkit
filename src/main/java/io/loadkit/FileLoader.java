@@ -23,7 +23,7 @@ public class FileLoader extends ResourceLoader implements Loader {
     }
 
     public FileLoader(URL fileURL) {
-        this(fileURL, new File(URIKit.decode(fileURL.getPath(), Charset.defaultCharset())));
+        this(fileURL, new File(Uris.decode(fileURL.getPath(), Charset.defaultCharset())));
     }
 
     public FileLoader(URL context, File root) {
@@ -79,7 +79,7 @@ public class FileLoader extends ResourceLoader implements Loader {
                         String name = context.toURI().relativize(file.toURI()).toString();
                         URL url = new URL(context, name);
                         if (filter.filtrate(name, url)) {
-                            next = new URLResource(name, url);
+                            next = new Res(name, url);
                             return true;
                         }
                     } catch (Exception e) {

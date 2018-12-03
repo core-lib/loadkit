@@ -75,9 +75,9 @@ public class JarLoader extends ResourceLoader implements Loader {
                         || (recursively && name.startsWith(folder))
                         || (!recursively && name.startsWith(folder) && name.indexOf('/', folder.length()) < 0)) {
                     try {
-                        URL url = new URL(context, URIKit.encodePath(name, Charset.defaultCharset()));
+                        URL url = new URL(context, Uris.encodePath(name, Charset.defaultCharset()));
                         if (filter.filtrate(name, url)) {
-                            next = new URLResource(name, url);
+                            next = new Res(name, url);
                             return true;
                         }
                     } catch (Exception e) {

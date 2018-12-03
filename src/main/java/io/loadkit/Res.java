@@ -10,11 +10,11 @@ import java.net.URL;
  * @author Payne 646742615@qq.com
  * 2018/12/2 10:06
  */
-public class URLResource implements Resource {
+public class Res implements Resource {
     private final String name;
     private final URL url;
 
-    public URLResource(String name, URL url) {
+    public Res(String name, URL url) {
         if (name == null) {
             throw new IllegalArgumentException("name must not be null");
         }
@@ -42,7 +42,7 @@ public class URLResource implements Resource {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        URLResource that = (URLResource) o;
+        Res that = (Res) o;
 
         return url.equals(that.url);
     }

@@ -47,7 +47,7 @@ import java.util.Map;
  * @see <a href="http://www.ietf.org/rfc/rfc3986.txt">RFC 3986</a>
  * @since 3.0
  */
-public abstract class URIKit {
+public abstract class Uris {
 
     /**
      * Encode the given URI scheme with the given encoding.
@@ -457,13 +457,13 @@ public abstract class URIKit {
 
     /**
      * Decode the given encoded URI component.
-     * <p>See {@link URIKit#uriDecode(String, Charset)} for the decoding rules.
+     * <p>See {@link Uris#uriDecode(String, Charset)} for the decoding rules.
      *
      * @param source   the encoded String
      * @param encoding the character encoding to use
      * @return the decoded value
      * @throws IllegalArgumentException when the given source contains invalid encoded sequences
-     * @see URIKit#uriDecode(String, Charset)
+     * @see Uris#uriDecode(String, Charset)
      * @see java.net.URLDecoder#decode(String, String)
      */
     public static String decode(String source, String encoding) {
@@ -472,13 +472,13 @@ public abstract class URIKit {
 
     /**
      * Decode the given encoded URI component.
-     * <p>See {@link URIKit#uriDecode(String, Charset)} for the decoding rules.
+     * <p>See {@link Uris#uriDecode(String, Charset)} for the decoding rules.
      *
      * @param source  the encoded String
      * @param charset the character encoding to use
      * @return the decoded value
      * @throws IllegalArgumentException when the given source contains invalid encoded sequences
-     * @see URIKit#uriDecode(String, Charset)
+     * @see Uris#uriDecode(String, Charset)
      * @see java.net.URLDecoder#decode(String, String)
      * @since 5.0
      */

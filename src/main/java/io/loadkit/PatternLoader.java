@@ -19,7 +19,7 @@ public abstract class PatternLoader extends DelegateLoader implements Loader {
      * 加载匹配模式表达式的所有资源，由于模式表达式中有可能表达了是否递归加载的含义，
      * 所以缺省情况下recursively参数会被忽略，取而代之的是{@link PatternLoader#recursively(String)}的返回值，
      * 如果字类实现的模式表达式并不能表达是否递归加载的含义，需要重写该方法以满足更多定制化的需求。
-     * 另外当filter参数不为null时，由模式表达式推导出的过滤器将会和filter参数混合成一个{@link MixedFilter}混合过滤器
+     * 另外当filter参数不为null时，由模式表达式推导出的过滤器将会和filter参数混合成一个{@link AllFilter}混合过滤器
      *
      * @param pattern     模式表达式
      * @param recursively 递归加载
@@ -29,10 +29,13 @@ public abstract class PatternLoader extends DelegateLoader implements Loader {
      */
     public Enumeration<Resource> load(String pattern, boolean recursively, Filter filter) throws IOException {
         Filter matcher = filter(pattern);
+        AllFilter allFilter = new AllFilter();
+        if (matcher != null) allFilter.add(matcher);
+        if (filter != null) allFilter.add(filter);
         return delegate.load(
                 path(pattern),
                 recursively(pattern),
-                filter != null ? new MixedFilter(filter, (matcher != null ? matcher : Filter.ALL)) : (matcher != null ? matcher : Filter.ALL)
+                allFilter
         );
     }
 

@@ -11,11 +11,20 @@ import java.net.URL;
 public interface Filter {
 
     /**
-     * 所有资源过滤器
+     * 永远返回true的过滤器
      */
-    Filter ALL = new Filter() {
+    Filter TRUE = new Filter() {
         public boolean filtrate(String name, URL url) {
             return true;
+        }
+    };
+
+    /**
+     * 永远返回false的过滤器
+     */
+    Filter FALSE = new Filter() {
+        public boolean filtrate(String name, URL url) {
+            return false;
         }
     };
 

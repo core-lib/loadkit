@@ -41,7 +41,7 @@ public class JarLoader extends ResourceLoader implements Loader {
     public Enumeration<Resource> load(String path, boolean recursively, Filter filter) {
         while (path.startsWith("/")) path = path.substring(1);
         while (path.endsWith("/")) path = path.substring(0, path.length() - 1);
-        return new Enumerator(context, jarFile, path, recursively, filter != null ? filter : Filter.ALL);
+        return new Enumerator(context, jarFile, path, recursively, filter != null ? filter : Filter.TRUE);
     }
 
     private static class Enumerator extends ResourceEnumerator implements Enumeration<Resource> {

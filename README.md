@@ -63,27 +63,30 @@ Loaders.std(otherClassLoader);
 // 当加载某个package下的类资源时也要用路径的方式来写包名的话其实不太直观，这时可以采用pkg资源加载器。
 Loaders.pkg().load("io.loadkit"); // 不递归
 Loaders.pkg().load("io.loadkit", true); // 递归
-Loaders.pkg().load("io.loadkit", (name, url) -> name.endsWith("Loader.class")); // 递归加载io.loadkit包下名称以Loader.class结尾的资源
+// 递归加载io.loadkit包下名称以Loader.class结尾的资源
+Loaders.pkg().load("io.loadkit", (name, url) -> name.endsWith("Loader.class")); 
 ```
 
 ```java
-// package资源加载器实际上是一个委派加载器，只是内部将包名转换成路径方式然后委派给实际的资源加载器，缺省情况下采用的是Loaders.std()资源加载器。
-// 也可以通过指定ClassLoader和delegate，实现更灵活的资源加载方式。
+// package资源加载器实际上是一个委派加载器，只是内部将包名转换成路径方式然后委派给实际的资源加载器。
+// 缺省情况下采用的是Loaders.std()资源加载器，也可以通过指定ClassLoader和delegate，实现更灵活的资源加载方式。
 Loaders.pkg(otherClassLoader);
 Loaders.pkg(Loaders.std(otherClassLoader));
 ```
 
 ```java
-// 在package资源加载器中要加载io.loadkit包下的名称Loader.class结尾的资源是需要自定义过滤器，虽然使用了Lambda表达式，但是采用ANT表达式就更简洁。
-Loaders.ant().load("io/loadkit/*Loader.class");
+// 在package资源加载器中要加载io.loadkit包下的名称Loader.class结尾的资源是需要自定义过滤器，
+// 即便使用了Lambda表达式，但是采用ANT表达式就更简洁。
 // * 任意个字符，但不包括子目录
 // ** 任意个字符，而且包括子目录
 // ? 单个字符，可以使用多个表达多个字符，例如：load??? 可匹配loadkit 但不匹配loader
+Loaders.ant().load("io/loadkit/*Loader.class");
 ```
 
 ```java
 // 上面的ANT风格路径的资源加载器加载io.loadkit包的资源时，需要用 “/” 来分隔目录，用来加载包资源不太直观。
-// 这时可以采用delegate模式用package资源加载器去包装一个ANT资源加载器，让资源加载同时拥有package 和 ant 两个加载器的解析能力。
+// 这时可以采用delegate模式用package资源加载器去包装一个ANT资源加载器，
+// 让资源加载同时拥有package 和 ant 两个加载器的解析能力。
 Loaders.pkg(Loaders.ant()).load("io.loadkit.*"); // 加载 io.loadkit.*
 ```
 

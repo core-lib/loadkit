@@ -23,7 +23,7 @@ JDK 1.5 +
     <repositories>
         <repository>
             <id>jitpack.io</id>
-            <url>https://www.jitpack.io</url>
+            <url>https://jitpack.io</url>
         </repository>
     </repositories>
     <!-- 添加 LoadKit 依赖 -->
@@ -31,7 +31,7 @@ JDK 1.5 +
         <dependency>
             <groupId>com.github.core-lib</groupId>
             <artifactId>loadkit</artifactId>
-            <version>LATEST_VERSION</version>
+            <version>v1.0.0</version>
         </dependency>
     </dependencies>
 </project>

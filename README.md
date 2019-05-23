@@ -31,7 +31,7 @@ JDK 1.5 +
         <dependency>
             <groupId>com.github.core-lib</groupId>
             <artifactId>loadkit</artifactId>
-            <version>v1.0.0</version>
+            <version>v1.0.1</version>
         </dependency>
     </dependencies>
 </project>
@@ -106,8 +106,9 @@ Filters.any(Filter...filters); // OR 连接的混合过滤器的另一种表达�
 
 
 ## 变更记录
-
-* v1.0.0 
+* v1.0.1
+    * 修复ANT路径表达式**/*无法匹配当前目录的问题
+* v1.0.0
     * 第一个正式版发布
 
 ## 协议声明
